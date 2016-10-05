@@ -1,0 +1,4 @@
+artifactory_url=http://mvnrepo.thehellnet.org/artifactory
+artifactory_repo_key=utility
+artifactory_user_name=username
+artifactory_user_password=password
