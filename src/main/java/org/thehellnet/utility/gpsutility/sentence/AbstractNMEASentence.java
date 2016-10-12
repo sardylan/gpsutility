@@ -60,7 +60,7 @@ public abstract class AbstractNMEASentence {
 
         String sentenceTag = String.format("%s%s", prefix, identifier);
         String[] sentenceItems = Utility.sentenceSplit(sentence);
-        if (sentenceItems.length != items || !sentenceItems[0].equals(sentenceTag)) {
+        if (!sentenceItems[0].equals(sentenceTag) || (items > 0 && sentenceItems.length != items)) {
             throw new NMEASentenceParseException();
         }
 

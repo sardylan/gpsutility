@@ -132,7 +132,23 @@ public class NMEASentenceFactoryTest {
     }
 
     @Test
-    public void parseSentenceGPGSV() throws Exception {
+    public void parseSentenceGPGSV01() throws Exception {
+        GPGSVSentence sentence = new GPGSVSentence();
+        sentence.setSentences(1);
+        sentence.setSentenceNum(1);
+        sentence.setSatNum(1);
+        List<Satellite> satellites = new ArrayList<>();
+        satellites.add(new Satellite(6, 0, 0, 19));
+        sentence.setSatellites(satellites);
+
+        input = "$GPGSV,1,1,01,06,,,19*76";
+        expected = sentence;
+        actual = NMEASentenceFactory.parseSentence(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseSentenceGPGSV02() throws Exception {
         GPGSVSentence sentence = new GPGSVSentence();
         sentence.setSentences(3);
         sentence.setSentenceNum(1);

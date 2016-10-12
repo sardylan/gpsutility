@@ -48,6 +48,9 @@ public abstract class AbstractCommonGSVSentence extends AbstractNMEASentence {
             satNum = Integer.parseInt(sentenceItems[3]);
 
         for (int i = 0; i < 4; i++) {
+            if (4 + i * 4 > sentenceItems.length - 1)
+                break;
+
             if (sentenceItems[4 + i * 4].length() > 0
                     || sentenceItems[5 + i * 4].length() > 0
                     || sentenceItems[6 + i * 4].length() > 0
