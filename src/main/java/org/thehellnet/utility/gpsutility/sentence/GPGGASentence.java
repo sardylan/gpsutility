@@ -52,16 +52,35 @@ public class GPGGASentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        time = Parser.time(sentenceItems[1]);
-        latitude = Parser.latitude(sentenceItems[2], sentenceItems[3]);
-        longitude = Parser.longitude(sentenceItems[4], sentenceItems[5]);
-        mode = Mode.fromNumber(sentenceItems[6]);
-        satellites = Integer.parseInt(sentenceItems[7]);
-        hdop = Float.parseFloat(sentenceItems[8]);
-        altitude = Float.parseFloat(sentenceItems[9]);
-        geoid = Float.parseFloat(sentenceItems[11]);
-        dgpsLastUpdate = Parser.integer(sentenceItems[13]);
-        dgpsStationId = Parser.integer(sentenceItems[14]);
+        if (sentenceItems[1].length() > 0)
+            time = Parser.time(sentenceItems[1]);
+
+        if (sentenceItems[3].length() > 0 && sentenceItems[3].length() > 0)
+            latitude = Parser.latitude(sentenceItems[2], sentenceItems[3]);
+
+        if (sentenceItems[4].length() > 0 && sentenceItems[5].length() > 0)
+            longitude = Parser.longitude(sentenceItems[4], sentenceItems[5]);
+
+        if (sentenceItems[6].length() > 0)
+            mode = Mode.fromNumber(sentenceItems[6]);
+
+        if (sentenceItems[7].length() > 0)
+            satellites = Integer.parseInt(sentenceItems[7]);
+
+        if (sentenceItems[8].length() > 0)
+            hdop = Float.parseFloat(sentenceItems[8]);
+
+        if (sentenceItems[9].length() > 0)
+            altitude = Float.parseFloat(sentenceItems[9]);
+
+        if (sentenceItems[11].length() > 0)
+            geoid = Float.parseFloat(sentenceItems[11]);
+
+        if (sentenceItems[13].length() > 0)
+            dgpsLastUpdate = Parser.integer(sentenceItems[13]);
+
+        if (sentenceItems[14].length() > 0)
+            dgpsStationId = Parser.integer(sentenceItems[14]);
     }
 
     public LocalTime getTime() {

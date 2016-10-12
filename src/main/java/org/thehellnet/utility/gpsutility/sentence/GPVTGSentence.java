@@ -37,10 +37,14 @@ public class GPVTGSentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        trueTrack = Float.parseFloat(sentenceItems[1]);
-        magneticTrack = Float.parseFloat(sentenceItems[3]);
-        groundSpeedKnots = Float.parseFloat(sentenceItems[5]);
-        groundSpeedKph = Float.parseFloat(sentenceItems[7]);
+        if (sentenceItems[1].length() > 0)
+            trueTrack = Float.parseFloat(sentenceItems[1]);
+        if (sentenceItems[3].length() > 0)
+            magneticTrack = Float.parseFloat(sentenceItems[3]);
+        if (sentenceItems[5].length() > 0)
+            groundSpeedKnots = Float.parseFloat(sentenceItems[5]);
+        if (sentenceItems[7].length() > 0)
+            groundSpeedKph = Float.parseFloat(sentenceItems[7]);
     }
 
     public float getTrueTrack() {

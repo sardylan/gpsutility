@@ -2,6 +2,7 @@ package org.thehellnet.utility.gpsutility.sentence;
 
 import org.thehellnet.utility.gpsutility.exception.nmea.NMEAException;
 import org.thehellnet.utility.gpsutility.exception.nmea.NMEASentenceParseException;
+import org.thehellnet.utility.gpsutility.model.Type;
 
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
 public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
 
     protected boolean automatic;
-    protected int fixType;
+    protected Type fixType;
     protected int[] prns;
     protected float pdop;
     protected float hdop;
@@ -28,7 +29,7 @@ public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
     @Override
     protected void init() {
         automatic = false;
-        fixType = 0;
+        fixType = Type.NO_FIX;
         prns = new int[12];
         pdop = 0;
         hdop = 0;
@@ -42,18 +43,24 @@ public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        automatic = sentenceItems[1].equals("A");
-        fixType = Integer.parseInt(sentenceItems[2]);
+        if (sentenceItems[1].length() > 0)
+            automatic = sentenceItems[1].equals("A");
+        if (sentenceItems[2].length() > 0)
+            fixType = Type.fromNumber(sentenceItems[2]);
 
         for (int i = 0; i < 12; i++) {
-            prns[i] = sentenceItems[3 + i].length() > 0
-                    ? Integer.parseInt(sentenceItems[3 + i])
-                    : 0;
+            if (sentenceItems[3 + i].length() > 0)
+                prns[i] = sentenceItems[3 + i].length() > 0
+                        ? Integer.parseInt(sentenceItems[3 + i])
+                        : 0;
         }
 
-        pdop = Float.parseFloat(sentenceItems[15]);
-        hdop = Float.parseFloat(sentenceItems[16]);
-        vdop = Float.parseFloat(sentenceItems[17]);
+        if (sentenceItems[15].length() > 0)
+            pdop = Float.parseFloat(sentenceItems[15]);
+        if (sentenceItems[16].length() > 0)
+            hdop = Float.parseFloat(sentenceItems[16]);
+        if (sentenceItems[17].length() > 0)
+            vdop = Float.parseFloat(sentenceItems[17]);
     }
 
     public boolean isAutomatic() {
@@ -64,11 +71,11 @@ public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
         this.automatic = automatic;
     }
 
-    public int getFixType() {
+    public Type getFixType() {
         return fixType;
     }
 
-    public void setFixType(int fixType) {
+    public void setFixType(Type fixType) {
         this.fixType = fixType;
     }
 
@@ -112,10 +119,10 @@ public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
         AbstractCommonGSASentence that = (AbstractCommonGSASentence) o;
 
         if (automatic != that.automatic) return false;
-        if (fixType != that.fixType) return false;
         if (Float.compare(that.pdop, pdop) != 0) return false;
         if (Float.compare(that.hdop, hdop) != 0) return false;
         if (Float.compare(that.vdop, vdop) != 0) return false;
+        if (fixType != that.fixType) return false;
         return Arrays.equals(prns, that.prns);
 
     }
@@ -123,7 +130,7 @@ public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
     @Override
     public int hashCode() {
         int result = (automatic ? 1 : 0);
-        result = 31 * result + fixType;
+        result = 31 * result + fixType.hashCode();
         result = 31 * result + Arrays.hashCode(prns);
         result = 31 * result + (pdop != +0.0f ? Float.floatToIntBits(pdop) : 0);
         result = 31 * result + (hdop != +0.0f ? Float.floatToIntBits(hdop) : 0);

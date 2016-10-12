@@ -9,6 +9,9 @@ import org.joda.time.DateTimeZone;
 public final class Utility {
 
     public static int checksum(String sentence) {
+        if (sentence == null)
+            return 0;
+
         int checksum = 0;
         for (char c : sentence.toCharArray()) checksum ^= c;
         return checksum;

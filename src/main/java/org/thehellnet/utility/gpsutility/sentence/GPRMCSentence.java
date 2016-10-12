@@ -45,13 +45,20 @@ public class GPRMCSentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        dateTime = Parser.dateTime(sentenceItems[9], sentenceItems[1]);
-        status = sentenceItems[2].equals("A");
-        latitude = Parser.latitude(sentenceItems[3], sentenceItems[4]);
-        longitude = Parser.longitude(sentenceItems[5], sentenceItems[6]);
-        speed = Float.parseFloat(sentenceItems[7]);
-        angle = Float.parseFloat(sentenceItems[8]);
-        variation = Parser.variation(sentenceItems[10], sentenceItems[11]);
+        if (sentenceItems[1].length() > 0 && sentenceItems[9].length() > 0)
+            dateTime = Parser.dateTime(sentenceItems[9], sentenceItems[1]);
+        if (sentenceItems[2].length() > 0)
+            status = sentenceItems[2].equals("A");
+        if (sentenceItems[3].length() > 0 && sentenceItems[4].length() > 0)
+            latitude = Parser.latitude(sentenceItems[3], sentenceItems[4]);
+        if (sentenceItems[5].length() > 0 && sentenceItems[6].length() > 0)
+            longitude = Parser.longitude(sentenceItems[5], sentenceItems[6]);
+        if (sentenceItems[7].length() > 0)
+            speed = Float.parseFloat(sentenceItems[7]);
+        if (sentenceItems[8].length() > 0)
+            angle = Float.parseFloat(sentenceItems[8]);
+        if (sentenceItems[9].length() > 0 && sentenceItems[10].length() > 0)
+            variation = Parser.variation(sentenceItems[10], sentenceItems[11]);
     }
 
     public DateTime getDateTime() {

@@ -5,6 +5,7 @@ import org.joda.time.LocalTime;
 import org.junit.Test;
 import org.thehellnet.utility.gpsutility.model.Mode;
 import org.thehellnet.utility.gpsutility.model.Satellite;
+import org.thehellnet.utility.gpsutility.model.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,18 @@ public class NMEASentenceFactoryTest {
     private AbstractNMEASentence actual;
 
     @Test
-    public void parseSentenceGPGGA() throws Exception {
+    public void parseSentenceGPGGA01() throws Exception {
+        GPGGASentence sentence = new GPGGASentence();
+        sentence.setTime(new LocalTime(14, 6, 13, 83));
+
+        input = "$GPGGA,140613.083,,,,,0,0,,,M,,M,,*42";
+        expected = sentence;
+        actual = NMEASentenceFactory.parseSentence(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseSentenceGPGGA02() throws Exception {
         GPGGASentence sentence = new GPGGASentence();
         sentence.setTime(new LocalTime(13, 54, 12));
         sentence.setLatitude(39.22349965);
@@ -41,7 +53,18 @@ public class NMEASentenceFactoryTest {
     }
 
     @Test
-    public void parseSentenceGPRMC() throws Exception {
+    public void parseSentenceGPRMC01() throws Exception {
+        GPRMCSentence sentence = new GPRMCSentence();
+        sentence.setDateTime(new DateTime(2016, 10, 12, 14, 6, 13, 83));
+
+        input = "$GPRMC,140613.083,V,,,,,0.00,0.00,121016,,,N*42";
+        expected = sentence;
+        actual = NMEASentenceFactory.parseSentence(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseSentenceGPRMC02() throws Exception {
         GPRMCSentence sentence = new GPRMCSentence();
         sentence.setDateTime(new DateTime(2016, 10, 5, 13, 54, 12));
         sentence.setStatus(true);
@@ -58,7 +81,17 @@ public class NMEASentenceFactoryTest {
     }
 
     @Test
-    public void parseSentenceGPVTG() throws Exception {
+    public void parseSentenceGPVTG01() throws Exception {
+        GPVTGSentence sentence = new GPVTGSentence();
+
+        input = "$GPVTG,0.00,T,,M,0.00,N,0.00,K,N*32";
+        expected = sentence;
+        actual = NMEASentenceFactory.parseSentence(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseSentenceGPVTG02() throws Exception {
         GPVTGSentence sentence = new GPVTGSentence();
         sentence.setTrueTrack(295.7f);
         sentence.setMagneticTrack(295.8f);
@@ -72,10 +105,21 @@ public class NMEASentenceFactoryTest {
     }
 
     @Test
-    public void parseSentenceGPGSA() throws Exception {
+    public void parseSentenceGPGSA01() throws Exception {
         GPGSASentence sentence = new GPGSASentence();
         sentence.setAutomatic(true);
-        sentence.setFixType(2);
+
+        input = "$GPGSA,A,1,,,,,,,,,,,,,,,*1E";
+        expected = sentence;
+        actual = NMEASentenceFactory.parseSentence(input);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void parseSentenceGPGSA02() throws Exception {
+        GPGSASentence sentence = new GPGSASentence();
+        sentence.setAutomatic(true);
+        sentence.setFixType(Type.FIX_2D);
         sentence.setPrns(new int[]{17, 22, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0});
         sentence.setPdop(2.3f);
         sentence.setHdop(2.1f);
@@ -153,7 +197,7 @@ public class NMEASentenceFactoryTest {
     public void parseSentenceGNGSA1() throws Exception {
         GNGSASentence sentence = new GNGSASentence();
         sentence.setAutomatic(true);
-        sentence.setFixType(2);
+        sentence.setFixType(Type.FIX_2D);
         sentence.setPrns(new int[]{17, 22, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0});
         sentence.setPdop(2.3f);
         sentence.setHdop(2.1f);
@@ -169,7 +213,7 @@ public class NMEASentenceFactoryTest {
     public void parseSentenceGNGSA2() throws Exception {
         GNGSASentence sentence = new GNGSASentence();
         sentence.setAutomatic(true);
-        sentence.setFixType(2);
+        sentence.setFixType(Type.FIX_2D);
         sentence.setPrns(new int[]{68, 69, 83, 84, 0, 0, 0, 0, 0, 0, 0, 0});
         sentence.setPdop(2.3f);
         sentence.setHdop(2.1f);

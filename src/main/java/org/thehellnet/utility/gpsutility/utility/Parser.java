@@ -15,9 +15,16 @@ public final class Parser {
     }
 
     public static LocalTime time(String time) {
-        return new LocalTime(Integer.parseInt(time.substring(0, 2)),
-                Integer.parseInt(time.substring(2, 4)),
-                Integer.parseInt(time.substring(4, 6)));
+        switch (time.length()) {
+            case 6:
+                return DateTimeFormat
+                        .forPattern("HHmmss")
+                        .parseLocalTime(time);
+            default:
+                return DateTimeFormat
+                        .forPattern("HHmmss.SSS")
+                        .parseLocalTime(time);
+        }
     }
 
     public static double latitude(String latitude, String northSouth) {

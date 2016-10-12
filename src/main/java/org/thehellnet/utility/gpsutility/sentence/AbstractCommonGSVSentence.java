@@ -40,9 +40,12 @@ public abstract class AbstractCommonGSVSentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        sentences = Integer.parseInt(sentenceItems[1]);
-        sentenceNum = Integer.parseInt(sentenceItems[2]);
-        satNum = Integer.parseInt(sentenceItems[3]);
+        if (sentenceItems[1].length() > 0)
+            sentences = Integer.parseInt(sentenceItems[1]);
+        if (sentenceItems[2].length() > 0)
+            sentenceNum = Integer.parseInt(sentenceItems[2]);
+        if (sentenceItems[3].length() > 0)
+            satNum = Integer.parseInt(sentenceItems[3]);
 
         for (int i = 0; i < 4; i++) {
             if (sentenceItems[4 + i * 4].length() > 0

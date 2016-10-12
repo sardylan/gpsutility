@@ -54,20 +54,30 @@ public abstract class AbstractCommonGNSSentence extends AbstractNMEASentence {
 
     @Override
     protected void parse(String[] sentenceItems) throws NMEASentenceParseException {
-        time = Parser.time(sentenceItems[1]);
-        latitude = Parser.latitude(sentenceItems[2], sentenceItems[3]);
-        longitude = Parser.longitude(sentenceItems[4], sentenceItems[5]);
+        if (sentenceItems[1].length() > 0)
+            time = Parser.time(sentenceItems[1]);
+        if (sentenceItems[2].length() > 0 && sentenceItems[3].length() > 0)
+            latitude = Parser.latitude(sentenceItems[2], sentenceItems[3]);
+        if (sentenceItems[4].length() > 0 && sentenceItems[5].length() > 0)
+            longitude = Parser.longitude(sentenceItems[4], sentenceItems[5]);
 
-        for (char c : sentenceItems[6].toCharArray()) {
-            modes.add(Mode.fromString(c));
-        }
+        if (sentenceItems[6].length() > 0)
+            for (char c : sentenceItems[6].toCharArray()) {
+                modes.add(Mode.fromString(c));
+            }
 
-        satellites = Integer.parseInt(sentenceItems[7]);
-        hdop = Float.parseFloat(sentenceItems[8]);
-        altitude = Float.parseFloat(sentenceItems[9]);
-        geoid = Float.parseFloat(sentenceItems[10]);
-        dgpsLastUpdate = Parser.integer(sentenceItems[11]);
-        dgpsStationId = Parser.integer(sentenceItems[12]);
+        if (sentenceItems[7].length() > 0)
+            satellites = Integer.parseInt(sentenceItems[7]);
+        if (sentenceItems[8].length() > 0)
+            hdop = Float.parseFloat(sentenceItems[8]);
+        if (sentenceItems[9].length() > 0)
+            altitude = Float.parseFloat(sentenceItems[9]);
+        if (sentenceItems[10].length() > 0)
+            geoid = Float.parseFloat(sentenceItems[10]);
+        if (sentenceItems[11].length() > 0)
+            dgpsLastUpdate = Parser.integer(sentenceItems[11]);
+        if (sentenceItems[12].length() > 0)
+            dgpsStationId = Parser.integer(sentenceItems[12]);
     }
 
     public LocalTime getTime() {

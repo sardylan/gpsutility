@@ -4,6 +4,7 @@ package org.thehellnet.utility.gpsutility.model;
  * Created by sardylan on 05/10/16.
  */
 public enum Mode {
+
     INVALID,
     AUTONOMOUS,
     DIFFERENTIAL,
