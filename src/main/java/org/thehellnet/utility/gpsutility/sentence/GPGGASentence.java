@@ -9,8 +9,8 @@ import org.thehellnet.utility.gpsutility.utility.Parser;
 /**
  * Created by sardylan on 05/10/16.
  */
-@NMEASentence(identifier = "GGA", prefix = "GP", items = 15)
-public class GPGGASentence extends AbstractNMEASentence {
+@Sentence(identifier = "GGA", prefix = "GP", items = 15)
+public class GPGGASentence extends NMEASentence {
 
     private LocalTime time;
     private double latitude;

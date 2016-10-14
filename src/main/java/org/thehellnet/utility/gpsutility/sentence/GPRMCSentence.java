@@ -8,8 +8,8 @@ import org.thehellnet.utility.gpsutility.utility.Parser;
 /**
  * Created by sardylan on 06/10/16.
  */
-@NMEASentence(identifier = "RMC", prefix = "GP", items = 13)
-public class GPRMCSentence extends AbstractNMEASentence {
+@Sentence(identifier = "RMC", prefix = "GP", items = 13)
+public class GPRMCSentence extends NMEASentence {
 
     private DateTime dateTime;
     private boolean status;

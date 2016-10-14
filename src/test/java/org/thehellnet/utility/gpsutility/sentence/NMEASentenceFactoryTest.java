@@ -18,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 public class NMEASentenceFactoryTest {
 
     private String input;
-    private AbstractNMEASentence expected;
-    private AbstractNMEASentence actual;
+    private NMEASentence expected;
+    private NMEASentence actual;
 
     @Test
     public void parseSentenceGPGGA01() throws Exception {

@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * Created by sardylan on 12/10/16.
  */
-public abstract class AbstractCommonGSASentence extends AbstractNMEASentence {
+public abstract class AbstractCommonGSASentence extends NMEASentence {
 
     protected boolean automatic;
     protected Type fixType;

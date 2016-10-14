@@ -28,13 +28,13 @@ public final class NMEASentenceFactory {
         classes.add(GPVTGSentence.class);
     }
 
-    public static AbstractNMEASentence parseSentence(String sentence) throws NMEAException {
+    public static NMEASentence parseSentence(String sentence) throws NMEAException {
         String sentencePrefix = sentence.substring(1, 3);
         String sentenceIdentifier = sentence.substring(3, 6);
         String sentenceTag = String.format("%s%s", sentencePrefix, sentenceIdentifier);
 
         for (Class<?> clazz : getClasses()) {
-            NMEASentence annotation = clazz.getAnnotation(NMEASentence.class);
+            Sentence annotation = clazz.getAnnotation(Sentence.class);
             String tag = String.format("%s%s", annotation.prefix(), annotation.identifier());
             if (tag.equals(sentenceTag)) {
                 Constructor<?> constructor;
@@ -45,9 +45,9 @@ public final class NMEASentenceFactory {
                     break;
                 }
 
-                AbstractNMEASentence nmeaSentence;
+                NMEASentence nmeaSentence;
                 try {
-                    nmeaSentence = (AbstractNMEASentence) constructor.newInstance(sentence);
+                    nmeaSentence = (NMEASentence) constructor.newInstance(sentence);
                 } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                     e.printStackTrace();
                     break;

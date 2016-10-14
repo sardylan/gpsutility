@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by sardylan on 11/10/16.
  */
-public abstract class AbstractCommonGSVSentence extends AbstractNMEASentence {
+public abstract class AbstractCommonGSVSentence extends NMEASentence {
 
     protected int sentences;
     protected int sentenceNum;

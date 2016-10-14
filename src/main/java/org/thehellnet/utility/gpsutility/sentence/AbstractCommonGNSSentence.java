@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by sardylan on 11/10/16.
  */
-public abstract class AbstractCommonGNSSentence extends AbstractNMEASentence {
+public abstract class AbstractCommonGNSSentence extends NMEASentence {
 
     protected LocalTime time;
     protected double latitude;

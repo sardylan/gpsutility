@@ -6,8 +6,8 @@ import org.thehellnet.utility.gpsutility.exception.nmea.NMEASentenceParseExcepti
 /**
  * Created by sardylan on 06/10/16.
  */
-@NMEASentence(identifier = "VTG", prefix = "GP", items = 10)
-public class GPVTGSentence extends AbstractNMEASentence {
+@Sentence(identifier = "VTG", prefix = "GP", items = 10)
+public class GPVTGSentence extends NMEASentence {
 
     private float trueTrack;
     private float magneticTrack;

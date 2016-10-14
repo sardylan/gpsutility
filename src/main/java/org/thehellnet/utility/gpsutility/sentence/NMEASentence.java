@@ -1,20 +1,74 @@
 package org.thehellnet.utility.gpsutility.sentence;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.thehellnet.utility.gpsutility.exception.nmea.NMEAException;
+import org.thehellnet.utility.gpsutility.exception.nmea.NMEAFormatException;
+import org.thehellnet.utility.gpsutility.exception.nmea.NMEASentenceParseException;
+import org.thehellnet.utility.gpsutility.utility.Utility;
 
 /**
- * Created by sardylan on 11/10/16.
+ * Created by sardylan on 05/10/16.
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface NMEASentence {
+public abstract class NMEASentence {
 
-    String identifier();
+    private int items;
+    private String identifier;
+    private String prefix;
 
-    String prefix();
+    NMEASentence() {
+        initParams();
+        init();
+    }
 
-    int items();
+    NMEASentence(String sentence) throws NMEAException {
+        initParams();
+        init();
+        parseSentence(sentence);
+    }
+
+    public int getItems() {
+        return items;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    protected abstract void init();
+
+    protected abstract String serialize();
+
+    protected abstract void parse(String[] sentenceItems) throws NMEASentenceParseException;
+
+    private void initParams() {
+        Sentence annotation = this.getClass().getAnnotation(Sentence.class);
+        items = annotation.items();
+        identifier = annotation.identifier();
+        prefix = annotation.prefix();
+    }
+
+    private String serializeSentence() {
+        String serializedSentence = serialize();
+        return String.format("$%s*%02X",
+                serializedSentence,
+                Utility.checksum(serializedSentence));
+    }
+
+    private void parseSentence(String sentence) throws NMEAException {
+        if (!Utility.verifyChecksum(sentence)) {
+            throw new NMEAFormatException();
+        }
+
+        String sentenceTag = String.format("%s%s", prefix, identifier);
+        String[] sentenceItems = Utility.sentenceSplit(sentence);
+        if (!sentenceItems[0].equals(sentenceTag) || (items > 0 && sentenceItems.length != items)) {
+            throw new NMEASentenceParseException();
+        }
+
+        parse(sentenceItems);
+    }
+
+    @Override
+    public String toString() {
+        return serializeSentence();
+    }
 }

@@ -5,7 +5,7 @@ import org.thehellnet.utility.gpsutility.exception.nmea.NMEAException;
 /**
  * Created by sardylan on 06/10/16.
  */
-@NMEASentence(identifier = "GSV", prefix = "GP", items = 0)
+@Sentence(identifier = "GSV", prefix = "GP", items = 0)
 public class GPGSVSentence extends AbstractCommonGSVSentence {
 
     public GPGSVSentence() {
